@@ -25,11 +25,6 @@ print '##############'
 print 'Output written'
 print '##############'
 print ''
-print ''
-print 'Commencing download...'
-print ''
-print ''
-
 # Download files
 if download in yes:
     subprocess.call(['wget','-i','out.txt'])

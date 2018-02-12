@@ -4,7 +4,7 @@ import argparse
 
 # argparse argument setup
 parser = argparse.ArgumentParser()
-parser.add_argument("-i", "--input", required=True ,help="Path to file containing list of accesion numbers.")
+parser.add_argument("-i", "--input", required=True ,help="Path to file containing list of accession numbers.")
 parser.add_argument("-o", "--output", required=True, help="Path to output text file containing list of generated URLS.")
 parser.add_argument("--man", help="Uses a list of accession numbers to generate and optionally download read data from the ENA. -i <path_to_input_file.txt> -o <path_to_output_url_list.txt>")
 args = parser.parse_args()

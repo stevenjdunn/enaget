@@ -5,7 +5,7 @@ import os
 import sys
 
 # Version
-_version_ = "0.2"
+_version_ = "0.3"
 
 # argparse argument setup
 parser = argparse.ArgumentParser()
@@ -13,6 +13,7 @@ parser.add_argument("-i", "--input", required=True ,help="Path to file containin
 parser.add_argument("-o", "--output", required=True, help="Path to output fastq files.")
 parser.add_argument("-l", "--list", action="store_true", help="Generates a list of URL's for retrieval at a later time (i.e. does not invoke wget).")
 parser.add_argument("-r", "--remove", action="store_true", help="Removes intermediate files (i.e. temp folder in output path)")
+parser.add_argument("-p", "--parallel", action="store_true", help="Executes wget in parallel for faster downloads.")
 args = parser.parse_args()
 
 # Space Saving
@@ -102,10 +103,12 @@ if args.remove:
 
 # --list exit
 if args.list:
+    print 'Exit #1'
     scriptend()
 
-# Download files
-if not args.list:
+
+# Download files 
+if not args.list and not args.parallel:
     print ''
     print ''
     print 'Commencing download...'
@@ -116,4 +119,19 @@ if not args.list:
     print '###################'
     print 'Downloads complete'
     print '###################'
-scriptend()
+    scriptend()
+
+# Parallel download of files 
+if args.parallel and not args.list:
+    print ''
+    print ''
+    print 'Commencing download...'
+    print ''
+    print ''
+    cat = subprocess.Popen(['cat', URLs], stdout=subprocess.PIPE)
+    subprocess.call(['parallel', '--gnu', 'wget', '{}', '-P', output_path], stdin=cat.stdout)
+    print ''
+    print '###################'
+    print 'Downloads complete'
+    print '###################'
+    scriptend()
